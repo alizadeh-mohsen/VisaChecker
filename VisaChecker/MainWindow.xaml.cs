@@ -45,7 +45,7 @@ namespace VisaChecker
                     return;
                 }
 
-                var data = _context.Gov.Where(c => c.Name.Contains(inputTextBox.Text)).ToList();
+                var data = _context.Gov.Where(c => c.Name.Contains(inputTextBox.Text)).OrderBy(x => x.Name).ToList();
 
                 categoryDataGrid.ItemsSource = data;
                 itemCount.Text = data.Count().ToString();
