@@ -40,15 +40,13 @@ namespace VisaChecker
             try
             {
                 if (inputTextBox.Text.Length > 15)
-                {
-                    MessageBox.Show("Please enter a search term.");
                     return;
-                }
 
                 var data = _context.Gov.Where(c => c.Name.Contains(inputTextBox.Text)).OrderBy(x => x.Name).ToList();
 
                 categoryDataGrid.ItemsSource = data;
                 itemCount.Text = data.Count().ToString();
+                Activate();
             }
             catch (Exception ex)
             {
@@ -60,10 +58,10 @@ namespace VisaChecker
         {
             try
             {
-                if (Clipboard.ContainsText() && Clipboard.GetText().Length < 15)
+                var clipboardText = Clipboard.GetText();
+                if (inputTextBox.Text != clipboardText)
                 {
-                    inputTextBox.Text = Clipboard.GetText();
-                    Clipboard.Clear(); // Clear clipboard to prevent repeated reads
+                    inputTextBox.Text = clipboardText;
                     LoadData();
                 }
             }
