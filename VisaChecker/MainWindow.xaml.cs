@@ -1,65 +1,80 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace VisaChecker
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
+
+        private DispatcherTimer _clipboardMonitorTime;
+        private const string ClipBoardBusy = "Clipboard is busy, please try again.";
         private readonly ProductContext _context;
         private CollectionViewSource categoryViewSource;
+
         public MainWindow(ProductContext context)
         {
-
             InitializeComponent();
             _context = context;
             categoryViewSource =
                 (CollectionViewSource)FindResource(nameof(categoryViewSource));
+            inputTextBox.Focus();
+            _clipboardMonitorTime = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+
+            _clipboardMonitorTime.Tick += ClipboardMonitorTime_Tick;
+            _clipboardMonitorTime.Start();
         }
 
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            LoadData();
+        }
+
+        private void LoadData()
+        {
             try
             {
-
-
-                if (string.IsNullOrWhiteSpace(inputTextBox.Text) || inputTextBox.Text.Length > 15)
+                if (inputTextBox.Text.Length > 15)
                 {
                     MessageBox.Show("Please enter a search term.");
                     return;
                 }
-                // Clear the DataGrid at the start of Button_Click
 
-                _context.Gov.Local.Clear(); 
+                var data = _context.Gov.Where(c => c.Name.Contains(inputTextBox.Text)).ToList();
 
-                _context.Gov.Where(c => c.Name.Contains(inputTextBox.Text)).Load();
-                categoryViewSource.Source = _context.Gov.Local.ToObservableCollection().Where(c => c.Name.Contains(inputTextBox.Text));
-
-                categoryDataGrid.Items.Refresh();
-
+                categoryDataGrid.ItemsSource = data;
+                itemCount.Text = data.Count().ToString();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
         }
-    } }
+
+        private void ClipboardMonitorTime_Tick(object? sender, EventArgs e)
+        {
+            try
+            {
+                if (Clipboard.ContainsText() && Clipboard.GetText().Length < 15)
+                {
+                    inputTextBox.Text = Clipboard.GetText();
+                    Clipboard.Clear(); // Clear clipboard to prevent repeated reads
+                    LoadData();
+                }
+            }
+            catch (System.Runtime.InteropServices.COMException)
+            {
+                itemCount.Text = ClipBoardBusy;
+            }
+            catch (Exception ex)
+            {
+                itemCount.Text = ex.Message;
+            }
+        }
+    }
+}

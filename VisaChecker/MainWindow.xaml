@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisaChecker"
         mc:Ignorable="d"
-         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded" Icon="/Visa.png" FontFamily="Cascadia Code" FontSize="14">
+        Title="MainWindow" Height="450" Width="800" Icon="/Visa.png"   FontFamily="Aptos"
+  Background="#F4F6FA" FontSize="14"
+        KeyDown="Button_Click">
     <Window.Resources>
         <CollectionViewSource x:Key="categoryViewSource"/>
         <CollectionViewSource x:Key="categoryProductsViewSource"
@@ -20,10 +22,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Content="Company Name"  HorizontalAlignment="Left" Margin="5" Grid.Row="0" Grid.Column="0"/>
-        <TextBox x:Name="inputTextBox" HorizontalAlignment="Left" Margin="5"  Width="200" Grid.Row="0" Grid.Column="1"/>
-        <Button Content="Search" HorizontalAlignment="Left"  Margin="5" Click="Button_Click" Height="20" Width="124"   Grid.Row="0" Grid.Column="2" />
+        <TextBox x:Name="inputTextBox" HorizontalAlignment="Left" Margin="5"  Width="200" Grid.Row="0" Grid.Column="1"
+                 AcceptsReturn="False"/>
+        <Button x:Name="searchButton" Content="Search" HorizontalAlignment="Left"  Margin="5" Click="Button_Click"  Width="100"   Grid.Row="0" Grid.Column="2" Background="#FF088CF1" Foreground="Black" IsDefault="True" />
 
         <DataGrid x:Name="categoryDataGrid" AutoGenerateColumns="False" 
           EnableRowVirtualization="True"
@@ -31,15 +35,17 @@
            RowDetailsVisibilityMode="VisibleWhenSelected" Margin="5" 
           Grid.Row="1" Grid.ColumnSpan="3" >
             <DataGrid.Columns>
-                
-        <!--<DataGridTextColumn Binding="{Binding CategoryId}"
-                            Header="Category Id" Width="SizeToHeader"
-                            IsReadOnly="True"/>-->
-        
                 <DataGridTextColumn Binding="{Binding Name}" Header="Name"
                             Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="3" Background="#2C3E50" Foreground="White">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text=" Items count: " />
+                    <TextBlock x:Name="itemCount" Text="0" />
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
