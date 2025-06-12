@@ -51,13 +51,11 @@ namespace VisaChecker
             try
             {
                 var clipboardText = Clipboard.GetText();
-                if (inputTextBox.Text.Length > 15)
+                
+                if (clipboardText.Length > 15 || inputTextBox.Text == clipboardText)
                     return;
-                if (inputTextBox.Text != clipboardText)
-                {
-                    inputTextBox.Text = clipboardText;
-                    LoadData();
-                }
+             
+                inputTextBox.Text = clipboardText;
             }
             catch (System.Runtime.InteropServices.COMException)
             {
@@ -90,7 +88,7 @@ namespace VisaChecker
             }
             if (inputTextBox.Text.Length < 4)
                 return;
-           
+
             LoadData();
         }
     }
