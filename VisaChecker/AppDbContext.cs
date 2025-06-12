@@ -4,23 +4,23 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace VisaChecker
 {
-    public class ProductContext : DbContext
+    public class AppDbContext : DbContext
     {
 
-        public ProductContext(DbContextOptions<ProductContext> opts) : base(opts)
+        public AppDbContext(DbContextOptions<AppDbContext> opts) : base(opts)
         {
 
         }
         public DbSet<Gov> Gov { get; set; }
     }
 
-    public class ProductContextFactory : IDesignTimeDbContextFactory<ProductContext>
+    public class ProductContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
-        public ProductContext CreateDbContext(string[] args)
+        public AppDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<ProductContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseSqlServer("Server=HOMEPC\\SQLEXPRESS;Database=sponsor;TrustServerCertificate=True;Trusted_Connection=True;");
-            return new ProductContext(optionsBuilder.Options);
+            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }

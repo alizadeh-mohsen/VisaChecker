@@ -11,8 +11,8 @@ using VisaChecker;
 namespace VisaChecker.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250610090534_init")]
-    partial class init
+    [Migration("20250612092715_index")]
+    partial class index
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,7 @@ namespace VisaChecker.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Route")
                         .IsRequired()
@@ -53,6 +53,8 @@ namespace VisaChecker.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Gov");
                 });

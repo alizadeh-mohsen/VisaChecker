@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisaChecker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Icon="/Visa.png"   FontFamily="Aptos"
-  Background="#F4F6FA" FontSize="14"
-        KeyDown="Button_Click">
+        Title="Authorized Sponsors" Height="450" Width="800" Icon="/Visa.png"   FontFamily="Aptos"
+  Background="#F4F6FA" FontSize="14"        >
     <Window.Resources>
         <CollectionViewSource x:Key="categoryViewSource"/>
         <CollectionViewSource x:Key="categoryProductsViewSource"
@@ -15,6 +14,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -25,24 +25,25 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Content="Company Name"  HorizontalAlignment="Left" Margin="5" Grid.Row="0" Grid.Column="0"/>
-        <TextBox x:Name="inputTextBox" HorizontalAlignment="Left" Margin="5"  Width="200" Grid.Row="0" Grid.Column="1"
-                 AcceptsReturn="False"/>
-        <Button x:Name="searchButton" Content="Search" HorizontalAlignment="Left"  Margin="5" Click="Button_Click"  Width="100"   Grid.Row="0" Grid.Column="2" Background="#FF088CF1" Foreground="Black" IsDefault="True" />
+        <TextBox x:Name="inputTextBox" HorizontalAlignment="Left" Margin="5"  Width="200" Grid.Row="0" Grid.Column="1" 
+                 AcceptsReturn="False" TextChanged="inputTextBox_TextChanged"/>
+        <Button x:Name="startButton" Content="Monitor Clipboard" HorizontalAlignment="Left"  Margin="5" Click="StartButton_Click"  Width="120"   Grid.Row="0" Grid.Column="2" Background="#FF088CF1" Foreground="Black" IsDefault="True" />
+        <Button x:Name="stopButton" Content="Stop Monitoring" HorizontalAlignment="Left"  Margin="5" Click="StopButton_Click"  Width="120"   Grid.Row="0" Grid.Column="3" Background="#FF088CF1" Foreground="Black" IsDefault="True" />
 
         <DataGrid x:Name="categoryDataGrid" AutoGenerateColumns="False" 
           EnableRowVirtualization="True"
           ItemsSource="{Binding Source={StaticResource categoryViewSource}}"
            RowDetailsVisibilityMode="VisibleWhenSelected" Margin="5" 
-          Grid.Row="1" Grid.ColumnSpan="3" >
+          Grid.Row="1" Grid.ColumnSpan="4" >
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Name}" Header="Name"
                             Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StatusBar Grid.Row="2" Grid.ColumnSpan="3" Background="#2C3E50" Foreground="White">
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="4" FontSize="14" Background="#2C3E50" Foreground="White">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text=" Items count: " />
+                    <TextBlock Text=" Items found: " />
                     <TextBlock x:Name="itemCount" Text="0" />
                 </StackPanel>
             </StatusBarItem>

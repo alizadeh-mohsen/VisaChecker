@@ -18,7 +18,7 @@ namespace VisaChecker
         }
         private void ConfigureServices(ServiceCollection services)
         {
-            services.AddDbContext<ProductContext>(options =>
+            services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer("Server=HOMEPC\\SQLEXPRESS;Database=sponsor;TrustServerCertificate=True;Trusted_Connection=True;");
                

@@ -10,10 +10,10 @@ namespace VisaChecker
 
         private DispatcherTimer _clipboardMonitorTime;
         private const string ClipBoardBusy = "Clipboard is busy, please try again.";
-        private readonly ProductContext _context;
+        private readonly AppDbContext _context;
         private CollectionViewSource categoryViewSource;
 
-        public MainWindow(ProductContext context)
+        public MainWindow(AppDbContext context)
         {
             InitializeComponent();
             _context = context;
@@ -25,23 +25,15 @@ namespace VisaChecker
                 Interval = TimeSpan.FromSeconds(1)
             };
 
-            _clipboardMonitorTime.Tick += ClipboardMonitorTime_Tick;
-            _clipboardMonitorTime.Start();
-        }
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            LoadData();
         }
 
         private void LoadData()
         {
             try
             {
-                if (inputTextBox.Text.Length > 15)
-                    return;
 
+
+                _context.ChangeTracker.QueryTrackingBehavior = Microsoft.EntityFrameworkCore.QueryTrackingBehavior.NoTracking;
                 var data = _context.Gov.Where(c => c.Name.Contains(inputTextBox.Text)).OrderBy(x => x.Name).ToList();
 
                 categoryDataGrid.ItemsSource = data;
@@ -59,6 +51,8 @@ namespace VisaChecker
             try
             {
                 var clipboardText = Clipboard.GetText();
+                if (inputTextBox.Text.Length > 15)
+                    return;
                 if (inputTextBox.Text != clipboardText)
                 {
                     inputTextBox.Text = clipboardText;
@@ -73,6 +67,31 @@ namespace VisaChecker
             {
                 itemCount.Text = ex.Message;
             }
+        }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            _clipboardMonitorTime.Tick += ClipboardMonitorTime_Tick;
+            _clipboardMonitorTime.Start();
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            _clipboardMonitorTime.Tick -= ClipboardMonitorTime_Tick;
+            _clipboardMonitorTime.Stop();
+        }
+
+        private void inputTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (inputTextBox.Text.Length == 0)
+            {
+                categoryDataGrid.ItemsSource = null;
+                itemCount.Text = "0";
+            }
+            if (inputTextBox.Text.Length < 4)
+                return;
+           
+            LoadData();
         }
     }
 }
