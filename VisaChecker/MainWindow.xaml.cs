@@ -23,8 +23,10 @@ namespace VisaChecker
             _clipboardMonitorTime = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(1)
-            };
-
+            };  
+            
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Title+= $" {version}";
         }
 
         private void LoadData()

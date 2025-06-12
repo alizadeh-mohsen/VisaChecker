@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>visa.ico</ApplicationIcon>
+    <AssemblyVersion>$(AssemblyVersion)</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
