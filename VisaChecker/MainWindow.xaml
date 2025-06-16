@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisaChecker"
         mc:Ignorable="d"
-        Title="Authorized Sponsors" Height="450" Width="800" Icon="/Visa.png"   FontFamily="Aptos"
+        Title="Authorized Sponsors" Height="450" Width="620" Icon="/Visa.png"   FontFamily="Aptos"
   Background="#F4F6FA" FontSize="14"        >
     <Window.Resources>
         <CollectionViewSource x:Key="categoryViewSource"/>
