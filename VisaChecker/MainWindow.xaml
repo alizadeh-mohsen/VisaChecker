@@ -25,7 +25,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Content="Company Name"  HorizontalAlignment="Left" Margin="5" Grid.Row="0" Grid.Column="0"/>
-        <TextBox x:Name="inputTextBox" HorizontalAlignment="Left" Margin="5"  Width="200" Grid.Row="0" Grid.Column="1" 
+        <TextBox x:Name="inputTextBox"  VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="5"  Width="200" Grid.Row="0" Grid.Column="1" 
                  AcceptsReturn="False" TextChanged="inputTextBox_TextChanged"/>
         <Button x:Name="startButton" Content="Monitor Clipboard" HorizontalAlignment="Left"  Margin="5" Click="StartButton_Click"  Width="120"   Grid.Row="0" Grid.Column="2" Background="#FF088CF1" Foreground="Black" IsDefault="True" />
         <Button x:Name="stopButton" Content="Stop Monitoring" HorizontalAlignment="Left"  Margin="5" Click="StopButton_Click"  Width="120"   Grid.Row="0" Grid.Column="3" Background="#FF088CF1" Foreground="Black" IsDefault="True" />
