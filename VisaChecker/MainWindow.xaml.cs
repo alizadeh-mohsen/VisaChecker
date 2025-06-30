@@ -23,10 +23,10 @@ namespace VisaChecker
             _clipboardMonitorTime = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(1)
-            };  
-            
+            };
+
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            Title+= $" {version}";
+            Title += $" {version}";
         }
 
         private void LoadData()
@@ -53,10 +53,10 @@ namespace VisaChecker
             try
             {
                 var clipboardText = Clipboard.GetText();
-                
+
                 if (clipboardText.Length > 15 || inputTextBox.Text == clipboardText)
                     return;
-             
+
                 inputTextBox.Text = clipboardText;
             }
             catch (System.Runtime.InteropServices.COMException)
@@ -73,12 +73,15 @@ namespace VisaChecker
         {
             _clipboardMonitorTime.Tick += ClipboardMonitorTime_Tick;
             _clipboardMonitorTime.Start();
+            status.Text = "Monitoring...";
+
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             _clipboardMonitorTime.Tick -= ClipboardMonitorTime_Tick;
             _clipboardMonitorTime.Stop();
+            status.Text = "";
         }
 
         private void inputTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
