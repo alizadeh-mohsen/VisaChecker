@@ -7,11 +7,11 @@ namespace VisaChecker
 
     public partial class MainWindow : Window
     {
-
         private DispatcherTimer _clipboardMonitorTime;
         private const string ClipBoardBusy = "Clipboard is busy, please try again.";
         private readonly AppDbContext _context;
         private CollectionViewSource categoryViewSource;
+        private const int MaxClipboardTextLength = 15;
 
         public MainWindow(AppDbContext context)
         {
@@ -33,8 +33,6 @@ namespace VisaChecker
         {
             try
             {
-
-
                 _context.ChangeTracker.QueryTrackingBehavior = Microsoft.EntityFrameworkCore.QueryTrackingBehavior.NoTracking;
                 var data = _context.Gov.Where(c => c.Name.Contains(inputTextBox.Text)).OrderBy(x => x.Name).ToList();
 
@@ -54,8 +52,11 @@ namespace VisaChecker
             {
                 var clipboardText = Clipboard.GetText();
 
-                if (clipboardText.Length > 15 || inputTextBox.Text == clipboardText)
+                if (inputTextBox.Text == clipboardText)
                     return;
+
+                if (clipboardText.Length > MaxClipboardTextLength)
+                    clipboardText = clipboardText.Substring(0, MaxClipboardTextLength-1);
 
                 inputTextBox.Text = clipboardText;
             }
